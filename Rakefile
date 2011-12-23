@@ -3,20 +3,25 @@
 require 'bundler'
 Bundler::GemHelper.install_tasks
 
-require 'rspec/core'
-require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new(:spec) do |spec|
-  spec.pattern = FileList['spec/**/*_spec.rb']
-end
+begin
 
-task :default => :spec
+  require 'rspec/core'
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec) do |spec|
+    spec.pattern = FileList['spec/**/*_spec.rb']
+  end
 
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  require 'kaminari/version'
+  task :default => :spec
 
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "kaminari #{Kaminari::VERSION}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+  require 'rake/rdoctask'
+  Rake::RDocTask.new do |rdoc|
+    require 'kaminari/version'
+
+    rdoc.rdoc_dir = 'rdoc'
+    rdoc.title = "kaminari #{Kaminari::VERSION}"
+    rdoc.rdoc_files.include('README*')
+    rdoc.rdoc_files.include('lib/**/*.rb')
+  end
+
+rescue LoadError
 end
